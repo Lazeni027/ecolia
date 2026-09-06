@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ECOLIA, logiciel de gestion scolaire : inscriptions, élèves, classes, notes, absences, scolarité, paiements, bulletins et rapports.">
+  <title>ECOLIA — Logiciel de gestion scolaire</title>
+  <style>
+    :root{
+      --bg:#f7fbff;
+      --bg2:#eef7ff;
+      --card:#ffffff;
+      --text:#14304a;
+      --muted:#61758a;
+      --line:#dce8f2;
+      --accent:#1769aa;
+      --accent2:#f2b84b;
+      --soft:#e9f4fc;
+      --white:#fff;
+      --shadow:0 16px 45px rgba(34,86,125,.12);
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Times New Roman",Times,serif;
+      background:
+        radial-gradient(circle at 90% 5%, rgba(23,105,170,.08), transparent 27%),
+        radial-gradient(circle at 5% 25%, rgba(242,184,75,.08), transparent 24%),
+        var(--bg);
+      color:var(--text);
+      line-height:1.55;
+    }
+    a{text-decoration:none;color:inherit}
+    .container{width:min(1120px,92%);margin:auto}
+    .nav{
+      position:sticky;top:0;z-index:20;
+      background:rgba(255,255,255,.88);backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--line)
+    }
+    .nav-inner{height:72px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{font-weight:900;font-size:23px;letter-spacing:.4px;color:var(--accent)}
+    .brand span{color:var(--accent2)}
+    .nav-links{display:flex;gap:22px;color:var(--muted);font-size:14px}
+    .nav-links a:hover{color:var(--accent)}
+    .nav-btn{
+      padding:11px 16px;border-radius:12px;background:var(--accent);color:#fff;font-weight:800;font-size:14px
+    }
+    .hero{padding:92px 0 62px}
+    .hero-grid{display:grid;grid-template-columns:1.12fr .88fr;gap:46px;align-items:center}
+    .eyebrow{
+      display:inline-flex;gap:8px;align-items:center;padding:7px 11px;border:1px solid #c7dff0;
+      border-radius:999px;color:var(--accent);background:#eff8ff;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.08em
+    }
+    h1{font-size:clamp(42px,6vw,72px);line-height:1.02;margin:17px 0 18px;letter-spacing:-.045em}
+    h1 span{color:var(--accent)}
+    .hero p{font-size:18px;color:var(--muted);max-width:680px}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+    .btn{padding:14px 20px;border-radius:14px;font-weight:800;display:inline-flex;align-items:center;justify-content:center}
+    .btn-primary{background:var(--accent);color:#fff;box-shadow:0 8px 22px rgba(23,105,170,.18)}
+    .btn-secondary{border:1px solid var(--line);background:#fff;color:var(--text)}
+    .mini-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px}
+    .stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 7px 25px rgba(34,86,125,.05)}
+    .stat strong{display:block;font-size:22px;color:var(--accent)}
+    .stat span{font-size:12px;color:var(--muted)}
+    .hero-card{
+      background:linear-gradient(145deg,#ffffff,#f2f8fd);
+      border:1px solid var(--line);border-radius:28px;padding:22px;box-shadow:var(--shadow)
+    }
+    .dashboard-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .dashboard-title{font-weight:800}
+    .pill{font-size:11px;color:#8a6113;background:#fff6df;padding:6px 9px;border-radius:999px;border:1px solid #f4dc9d}
+    .dash-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+    .dash-item{padding:16px;border:1px solid var(--line);border-radius:16px;background:#fff}
+    .dash-value{font-size:25px;font-weight:900;color:var(--accent)}
+    .dash-label{font-size:12px;color:var(--muted)}
+    .section{padding:86px 0}
+    .section-head{max-width:740px;margin-bottom:34px}
+    .section-head h2{font-size:clamp(30px,4vw,46px);margin:8px 0 10px;letter-spacing:-.03em}
+    .section-head p{color:var(--muted);font-size:16px}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .feature{
+      padding:24px;border:1px solid var(--line);background:#fff;border-radius:18px;box-shadow:0 8px 28px rgba(34,86,125,.045)
+    }
+    .feature:hover{transform:translateY(-2px);transition:.18s ease}
+    .icon{font-size:25px;margin-bottom:13px}
+    .feature h3{margin:0 0 7px;font-size:18px}
+    .feature p{margin:0;color:var(--muted);font-size:14px}
+    .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+    .step{position:relative;padding:21px;border:1px solid var(--line);border-radius:18px;background:#fff}
+    .step-num{font-size:12px;color:var(--accent2);font-weight:900}
+    .step h3{margin:6px 0 7px;font-size:17px}
+    .step p{margin:0;color:var(--muted);font-size:13px}
+    .yearly{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .month{padding:18px;border:1px solid var(--line);border-radius:18px;background:#fff}
+    .month strong{display:block;margin-bottom:4px;color:var(--accent)}
+    .month span{font-size:13px;color:var(--muted)}
+    .compare{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .compare-card{padding:26px;border-radius:22px;border:1px solid var(--line);background:#fff}
+    .compare-card.after{background:linear-gradient(180deg,#eef8ff,#fff);border-color:#cce3f3}
+    .compare-card h3{margin-top:0}
+    .compare-card ul{padding-left:20px;color:var(--muted)}
+    .cta{
+      margin:24px 0 86px;padding:38px;border:1px solid #c7dff0;
+      border-radius:28px;background:linear-gradient(120deg,#eef8ff,#fffaf0)
+    }
+    .cta h2{margin:0 0 10px;font-size:clamp(30px,4vw,44px)}
+    .cta p{margin:0;color:var(--muted);max-width:740px}
+    footer{border-top:1px solid var(--line);padding:26px 0 40px;color:var(--muted);font-size:13px;background:#fff}
+    .footer-inner{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+    .contact-panel{margin-top:24px;padding:22px;border:1px solid #c7dff0;border-radius:20px;background:#fff}
+    .contact-title{font-weight:800;font-size:16px;color:var(--accent);margin-bottom:5px}
+    .contact-main{font-size:34px;font-weight:900;letter-spacing:.02em;color:var(--text);margin-bottom:14px}
+    .contact-actions{display:flex;flex-wrap:wrap;gap:10px}
+    .contact-btn{padding:12px 17px;border-radius:12px;font-weight:800;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center}
+    .contact-btn.call{background:var(--accent);color:#fff}
+    .contact-btn.whatsapp{background:#25D366;color:#fff}
+    .contact-btn.mail{background:#fff;border-color:var(--line);color:var(--text)}
+    .contact-details{display:flex;flex-wrap:wrap;gap:14px;margin-top:15px;color:var(--muted);font-size:13px}
+
+    .contact-note{margin-top:12px;color:var(--muted);font-size:13px}
+    .site-name{font-weight:900;color:var(--accent)}
+
+    .burger{display:none;width:44px;height:44px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--accent);align-items:center;justify-content:center;cursor:pointer}
+    .burger span,.burger span:before,.burger span:after{content:"";display:block;width:21px;height:2px;background:var(--accent);position:relative;transition:.2s}
+    .burger span:before{position:absolute;top:-7px}
+    .burger span:after{position:absolute;top:7px}
+    .mobile-nav{display:none;border-top:1px solid var(--line);background:#fff}
+    .mobile-nav.open{display:block}
+    .mobile-nav a{display:block;padding:14px 4%;border-bottom:1px solid #eef3f7;color:var(--text);font-weight:700}
+
+    @media (max-width:900px){
+      .hero-grid,.compare{grid-template-columns:1fr}
+      .feature-grid{grid-template-columns:repeat(2,1fr)}
+      .timeline{grid-template-columns:repeat(2,1fr)}
+      .yearly{grid-template-columns:repeat(2,1fr)}
+      .nav-links{display:none}
+      .burger{display:flex}
+    }
+    @media (max-width:600px){
+      .hero{padding-top:58px}
+      .feature-grid,.timeline,.yearly,.mini-stats{grid-template-columns:1fr}
+      h1{font-size:46px}
+      .actions .btn{width:100%}
+      .hero-card{padding:17px}
+      .contact-main{font-size:29px}
+      .contact-actions .contact-btn{width:100%}
+      .contact-details{flex-direction:column;gap:7px}
+      .section{padding:64px 0}
+    }
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="brand">Gestion<span>Collège</span></a>
+      <nav class="nav-links">
+        <a href="#fonctionnalites">Fonctionnalités</a>
+        <a href="#annee">Année scolaire</a>
+        <a href="#avantages">Avantages</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="nav-btn" href="#contact">Demander une démo</a>
+      <button class="burger" id="burger" type="button" aria-label="Ouvrir le menu" aria-expanded="false"><span></span></button>
+    </div>
+    <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+      <a href="#fonctionnalites">Fonctionnalités</a>
+      <a href="#annee">Année scolaire</a>
+      <a href="#avantages">Avantages</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">La gestion scolaire, simplement</span>
+          <div style="margin-top:10px;font-size:13px;font-weight:700;color:var(--muted)">ecolia.ci</div>
+          <h1>Gérez votre établissement.<br><span style="color:var(--accent)">Simplement.</span></h1>
+          <p>
+            Un système centralisé pour gérer les inscriptions, les élèves, les classes,
+            les notes, les absences, la scolarité, les paiements, les bulletins et les rapports.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="mailto:ecolia.ci@gmail.com">Demander une démonstration</a>
+            <a class="btn btn-secondary" href="#fonctionnalites">Voir les fonctionnalités</a>
+          </div>
+          <div class="mini-stats">
+            <div class="stat"><strong>1 seul</strong><span>système pour toute l'école</span></div>
+            <div class="stat"><strong>+ rapide</strong><span>recherche et opérations</span></div>
+            <div class="stat"><strong>Année après année</strong><span>historique conservé</span></div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="dashboard-head">
+            <div class="dashboard-title">Tableau de bord établissement</div>
+            <div class="pill">Vue en un coup d'œil</div>
+          </div>
+          <div class="dash-grid">
+            <div class="dash-item"><div class="dash-value">1 248</div><div class="dash-label">Élèves</div></div>
+            <div class="dash-item"><div class="dash-value">32</div><div class="dash-label">Classes</div></div>
+            <div class="dash-item"><div class="dash-value">86</div><div class="dash-label">Enseignants</div></div>
+            <div class="dash-item"><div class="dash-value">78%</div><div class="dash-label">Scolarités à jour</div></div>
+            <div class="dash-item"><div class="dash-value">154</div><div class="dash-label">Absences aujourd'hui</div></div>
+            <div class="dash-item"><div class="dash-value">12,45 M</div><div class="dash-label">Recettes</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fonctionnalites" class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Tout centraliser</span>
+          <h2>Une plateforme pensée pour la gestion quotidienne du collège</h2>
+          <p>Chaque module travaille avec les autres. Une information saisie une fois peut être réutilisée partout où elle est nécessaire.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature"><div class="icon">01</div><h3>Inscriptions</h3><p>Préinscriptions, réinscriptions, matricules, dossiers, parents et pièces à fournir.</p></div>
+          <div class="feature"><div class="icon">02</div><h3>Élèves</h3><p>Fiche complète, historique scolaire, classe, paiements, notes, absences et documents.</p></div>
+          <div class="feature"><div class="icon">03</div><h3>Classes</h3><p>Niveaux, classes, effectifs, matières, affectations et organisation pédagogique.</p></div>
+          <div class="feature"><div class="icon">03</div><h3>Enseignants</h3><p>Profils, classes, matières, emplois du temps, notes et absences.</p></div>
+          <div class="feature"><div class="icon">05</div><h3>Notes & bulletins</h3><p>Saisie des notes, coefficients, moyennes, classements, résultats et bulletins.</p></div>
+          <div class="feature"><div class="icon">06</div><h3>Absences & retards</h3><p>Suivi quotidien, justificatifs, historique et statistiques de présence.</p></div>
+          <div class="feature"><div class="icon">07</div><h3>Scolarité</h3><p>Frais, échéances, paiements, restes à payer, reçus et impayés.</p></div>
+          <div class="feature"><div class="icon">08</div><h3>Caisse</h3><p>Recettes, dépenses, mouvements, soldes et rapports financiers.</p></div>
+          <div class="feature"><div class="icon">09</div><h3>Documents</h3><p>Fiches, attestations, certificats, listes, rapports et impressions.</p></div>
+          <div class="feature"><div class="icon">10</div><h3>Communication</h3><p>Annonces, informations, rappels et notifications selon les modules activés.</p></div>
+          <div class="feature"><div class="icon">11</div><h3>Recherche rapide</h3><p>Retrouvez un élève par nom, prénom, matricule, classe, parent ou année scolaire.</p></div>
+          <div class="feature"><div class="icon">12</div><h3>Utilisateurs & accès</h3><p>Des droits adaptés à la direction, aux enseignants, à la caisse, aux parents et aux élèves.</p></div>
+        </div>
+      </div>
+    </section>
+
+    
+<section id="annee" class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Année après année</span>
+          <h2>Le logiciel ne repart jamais de zéro</h2>
+          <p>Créez la nouvelle année scolaire, conservez l'historique et réinscrivez rapidement les anciens élèves.</p>
+        </div>
+        <div class="timeline">
+          <div class="step"><div class="step-num">01</div><h3>Créer l'année</h3><p>Nouvelle année scolaire, classes, matières, coefficients et paramètres.</p></div>
+          <div class="step"><div class="step-num">02</div><h3>Réinscrire</h3><p>Les anciens élèves sont retrouvés et affectés à leur nouvelle classe sans ressaisie inutile.</p></div>
+          <div class="step"><div class="step-num">03</div><h3>Suivre</h3><p>Inscriptions, paiements, notes, absences, bulletins et rapports pendant toute l'année.</p></div>
+          <div class="step"><div class="step-num">04</div><h3>Archiver</h3><p>En fin d'année, les données restent disponibles pour consulter l'historique.</p></div>
+        </div>
+
+        <div style="height:18px"></div>
+        <div class="yearly">
+          <div class="month"><strong>Juillet</strong><span>Clôture, bilan et archivage.</span></div>
+          <div class="month"><strong>Août</strong><span>Préparation de la nouvelle année.</span></div>
+          <div class="month"><strong>Septembre</strong><span>Inscriptions, réinscriptions et rentrée.</span></div>
+          <div class="month"><strong>Octobre</strong><span>Suivi des effectifs, absences et paiements.</span></div>
+          <div class="month"><strong>Novembre</strong><span>Évaluations et suivi des performances.</span></div>
+          <div class="month"><strong>Décembre</strong><span>Premier bilan et bulletins.</span></div>
+          <div class="month"><strong>Janvier</strong><span>Nouveau trimestre et reprise du suivi.</span></div>
+          <div class="month"><strong>Février</strong><span>Notes, moyennes et présence.</span></div>
+          <div class="month"><strong>Mars</strong><span>Deuxième bilan et rapports.</span></div>
+          <div class="month"><strong>Avril</strong><span>Préparation des échéances et examens.</span></div>
+          <div class="month"><strong>Mai</strong><span>Examens, résultats et décisions.</span></div>
+          <div class="month"><strong>Juin</strong><span>Clôture, résultats finaux et archivage.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="avantages" class="section">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Pourquoi l'adopter ?</span>
+          <h2>Moins de tâches manuelles. Plus de contrôle.</h2>
+          <p>Le système est pensé pour faire gagner du temps à la direction et aux équipes administratives.</p>
+        </div>
+        <div class="compare">
+          <div class="compare-card before">
+            <h3>Avant</h3>
+            <ul>
+              <li>Dossiers et informations dispersés</li>
+              <li>Recherches longues</li>
+              <li>Ressaisie des élèves à chaque rentrée</li>
+              <li>Calculs manuels</li>
+              <li>Suivi difficile des impayés et absences</li>
+              <li>Rapports longs à préparer</li>
+            </ul>
+          </div>
+          <div class="compare-card after">
+            <h3>Avec le logiciel</h3>
+            <ul>
+              <li>Une base centralisée</li>
+              <li>Recherche en quelques secondes</li>
+              <li>Réinscription facilitée d'une année à l'autre</li>
+              <li>Moyennes et soldes calculés automatiquement</li>
+              <li>Suivi clair des absences et paiements</li>
+              <li>Rapports et documents générés rapidement</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:10px">
+      <div class="container">
+        <div class="cta" id="contact">
+          <h2>Votre établissement mérite une gestion plus simple.</h2>
+          <p>
+            Centralisez vos opérations, gagnez du temps et gardez une vision claire de votre établissement.
+            Présentez la solution à votre direction et passez à une gestion scolaire plus rapide.
+          </p>
+          <div class="actions">
+            <a class="btn btn-primary" href="mailto:ecolia.ci@gmail.com">Je demande une démonstration</a>
+            <a class="btn btn-secondary" href="tel:+2250716851525">Appeler maintenant</a>
+            <a class="btn btn-secondary" target="_blank" rel="noopener" href="https://wa.me/2250716851525?text=Bonjour%20ECOLIA%2C%20je%20souhaite%20avoir%20une%20d%C3%A9monstration%20du%20logiciel%20de%20gestion%20scolaire.">WhatsApp</a>
+          </div>
+          
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div><strong>ECOLIA</strong> — Solution de gestion scolaire · Abidjan, Côte d’Ivoire</div>
+      <div>ecolia.ci · © <span id="year"></span> Tous droits réservés.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const burger = document.getElementById("burger");
+    const mobileNav = document.getElementById("mobileNav");
+    if (burger && mobileNav) {
+      burger.addEventListener("click", () => {
+        const open = mobileNav.classList.toggle("open");
+        burger.setAttribute("aria-expanded", String(open));
+        mobileNav.setAttribute("aria-hidden", String(!open));
+      });
+      mobileNav.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+          mobileNav.classList.remove("open");
+          burger.setAttribute("aria-expanded", "false");
+          mobileNav.setAttribute("aria-hidden", "true");
+        });
+      });
+    }
+
+  </script>
+</body>
+</html>
